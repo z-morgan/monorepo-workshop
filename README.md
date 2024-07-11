@@ -22,8 +22,6 @@ Embark on this journey with us as we traverse the world of monorepos, aiming to 
 
 ## Outline
 
-Progress: ![28%](https://progress-bar.dev/28)
-
 - ✅: Teacher's notes are completed.
 - 🏗️: Teacher's notes are in progress.
 
