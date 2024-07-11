@@ -11,9 +11,9 @@ This is the core of working in a monorepo!
 
 Your task is to:
 
-1. Convert each project into an ESM (ECMAScript Modules) module.
-2. Install the `firelane-two` package into the `firelane-one` package using `pnpm install`. You should be able to use `firelane-two` inside the same `index.js` file. You will need to adjust the code to be exported from `firelane-two`.
-3. Explore the `node_modules` created at the root directory and in `package one`.
+1. Convert each project into an ESM (ECMAScript Module) module.
+2. Install the `firelane-two` package into the `firelane-one`. You should be able to run `firelane-two` inside the `index.js` file of `firelane-one`. You will need to adjust the code to be exported from `firelane-two`.
+3. Explore the `node_modules` created at the root directory and in the `firelane-one` package.
 
 </details>
 
@@ -29,18 +29,66 @@ Your task is to:
 <details>
 <summary>🌱 Solution</summary>
 
-1. Convert each project into an ESM (ECMAScript Modules) module.
+**The goal is to run code from one package inside another package.**
+
+1. Convert each project into an ESM (ECMAScript Module) module.
+
+Although it's not required to use ECMAScript Modules (ESM) for this task, it is the recommended modern standard for Node.js projects.
+
+Add this to both packages:
+
+```json
+"type": "module"
+```
+
+> Note: We don't have to do this in the main `package.json`.
 
 2. Install the `firelane-two` package into the `firelane-one` package using `pnpm install`.
 
-You should be able to use `firelane-two` inside the same `index.js` file. You will need to adjust the code to be exported from `firelane-two`.
+Inside `firelane-one`, add the dependency:
+
+```json
+ "dependencies": {
+    "@forestpark/firelane-one": "1.0.0"
+  },
+```
+
+> We can specify the version directly.
+
+You should be able to use `firelane-two` inside the same `index.js` file. You will need to adjust the code to be exported from `firelane-two`:
+
+```js
+export function calculateLeaves(branchCount) {
+  return branchCount * 70
+}
+```
+
+Adding the export allows you to access this package as you would with any third-party package.
+
+> Run `pnpm install` at the root of the workspace.
 
 3. Explore the `node_modules` created at the root directory and in `package one`.
 
-4. Run `firelane-two` from the root.
+When you run `pnpm install`, it creates `node_modules` directories at the root and inside `firelane-one`. These directories contain symbolic links to the actual packages.
 
-`pnpm -r --filter @forestpark/firelane-two run start`
+4. Import our installed package.
 
-Using one
+```js
+import {calculateLeaves} from '@forestpark/firelane-one'
+
+calculateLeaves()
+```
+
+This treats it as any other dependency.
+
+5. Run `firelane-two` from the root:
+
+```
+pnpm -r --filter @forestpark/firelane-two run start
+```
+
+> We are now officially able to work in two projects at once! We can use code from one project inside another. This is the core of working in a monorepo. 😄
+
+> Whether we start working with React, Svelte, etc., it doesn't matter. All that matters is that we have a `package.json` file, allowing us to work across projects as if they were all inside one codebase.
 
 </details>
