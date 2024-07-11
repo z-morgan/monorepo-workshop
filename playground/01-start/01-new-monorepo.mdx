@@ -1,0 +1,97 @@
+## 01. Assembling a Monorepo from Scratch
+
+In this section, we'll concentrate on setting up a basic monorepo structure. We'll deliberately avoid introducing any compilers or tooling at this point, allowing us to focus on understanding the core principles of orchestrating a monorepo from the ground up. Once we've grasped these fundamental concepts, we'll be able to apply them to any project, irrespective of the framework used, be it React, Svelte, Vue, or others.
+
+<details>
+<summary>💪 Challenge</summary>
+
+Your task is to create a monorepo using pnpm workspaces.
+
+1. In the `01-start` directory, create a new `packages` folder.
+2. Inside this folder, initialize a new package named `firelane-one`
+3. Move the `index.js` file in your new package.
+4. Update the `package.json` file of your package with an appropriate name.
+5. At the root directory, create a file to enable pnpm workspace functionality.
+6. Update the scripts in your `package.json` to execute the `firelane-one` package.
+
+</details>
+
+<details>
+<summary>🧰 Resources</summary>
+
+- [pnpm workspaces](https://pnpm.io/workspaces): this link provides detailed information about how to use pnpm workspaces in a monorepo setup.
+
+- [pnpm init](https://pnpm.io/cli/init): this link explains how to initialize a new project with pnpm, which is a crucial step in setting up a monorepo.
+
+</details>
+
+<details>
+<summary>🌱 Solution</summary>
+
+To set up a monorepo using pnpm workspaces, you need to follow these steps:
+
+1. Navigate to the 01-start directory and create a new folder named packages:
+
+```bash
+cd 01-start
+mkdir packages
+```
+
+2. Move into the packages folder and create a new package named firelane-one. Initialize this new package using pnpm init -y:
+
+```bash
+cd packages
+mkdir firelane-one
+cd firelane-one
+pnpm init -y
+```
+
+The -y flag in pnpm init -y automatically fills in the default information in the package.json file.
+
+3. Inside the firelane-one package, create a new file named index.js:
+
+```js
+touch index.js
+```
+
+4. In the package.json file of firelane-one, define the name of the package as "@forestpark/firelane-one". It should look like this:
+
+```json
+{
+  "name": "@forestpark/firelane-one",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+```
+
+The package.json file holds various metadata relevant to the project. The name property defines the name of the package, and the scripts property contains scripts that are run at various times in the lifecycle of your package.
+
+5. Create a pnpm-workspace.yaml file at the root directory of 01-start. This file tells pnpm that you want to use workspace functionality.
+
+```yaml
+packages:
+  - 'packages/**'
+```
+
+The line 'packages/**' tells pnpm to look for sub-modules inside the packages folder. The ** is a wildcard that matches any file or directory.
+
+6. Update the scripts in your package.json file to include a command to start the @forestpark/firelane-one package:
+
+```json
+"scripts": {
+  "firelane-one:start": "pnpm -r --filter @forestpark/firelane-one run start"
+}
+```
+
+This script runs the start command defined in the package.json file of the `@forestpark/firelane-one` package.
+
+The `-r` flag tells pnpm to run the command recursively in every package in the monorepo, and the `--filter @forestpark/firelane-one` option limits the scope of the command to the `@forestpark/firelane-one` package.
+
+</details>
